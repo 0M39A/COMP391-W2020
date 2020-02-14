@@ -6,8 +6,12 @@ public class PlayerController : MonoBehaviour
 {
     //VARIABLES
     public float speed,  MinX, MaxX, MinY, MaxY;
+    public GameObject PlayerShot;
+    public GameObject PlayerShotSpawn;
 
     private Rigidbody2D Pbody;
+    public float FireRate = 0.25f;
+    private float Timer = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -25,5 +29,19 @@ public class PlayerController : MonoBehaviour
 
         //RESTRICTION CODE
         Pbody.position= new Vector2(Mathf.Clamp(Pbody.position.x, MinX, MaxX), Mathf.Clamp(Pbody.position.y, MinY, MaxY));
+    }
+
+    void Update()
+    {
+        //CHECK IF FIRE BUTTON IS PRESSED
+        if(Input.GetAxis("Fire1") > 0 && Timer > FireRate)
+        {
+            //IF YES SPWAN SHOT
+            GameObject.Instantiate(PlayerShot, PlayerShotSpawn.transform.position, Quaternion.identity);
+
+            //RESET TIMER
+            Timer = 0;
+        }
+        Timer += Time.deltaTime;
     }
 }
