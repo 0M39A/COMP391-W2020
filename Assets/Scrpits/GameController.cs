@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        StartCoroutine(SpawnWaves());
 
 
     }
@@ -25,5 +25,28 @@ public class GameController : MonoBehaviour
     void Update()
     {
         
+    }
+
+    //coroutine to spwan waves of harzds
+    IEnumerator SpawnWaves()
+    {
+        //Intial delay before the First Wave
+        yield return new WaitForSeconds(startWait);
+
+        //Start spawning the waves
+        while(true)
+        {
+            //Spawn some hazards
+            for(int i =0; i < hazardCount; i++)
+            {
+                //Spawn a single hazrd
+                Vector2 spawnPosition = new Vector2(spawnValue.x, Random.Range(-spawnValue.y, spawnValue.y));
+
+                Instantiate(hazard, spawnPosition,Quaternion.identity);
+                yield return new WaitForSeconds(spawnWait); //Wait for the next hazard
+            }
+
+            yield return new WaitForSeconds(waveWait);
+        }
     }
 }
